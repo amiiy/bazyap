@@ -1,3 +1,6 @@
-git addfrom django.contrib import admin
+from django.contrib import admin
 
-# Register your models here.
+from .models import Rubbish, Client, User, Order
+
+
+admin.site.register(Order)
