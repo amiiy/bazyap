@@ -1,12 +1,13 @@
+
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 from django.db import models
 
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    token = models.ForeignKey(Token, on_delete=models.CASCADE)
 
-
-#    type = models.CharField(max_length=1, choices=)
 
 
 class Rubbish(models.Model):

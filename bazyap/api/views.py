@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from bazyap.api.serializers import UserSerializer, GroupSerializer
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import UserSerializer, GroupSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -17,4 +20,29 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+
+
+@api_view(['POST'])
+def RegisterNumber(request):
+    # get user phone number
+    # generate a new number and send to user sms service
+    # save number in user table in (pre-active phase)
+    # return successfull status
+    return Response('ok')
+
+
+@api_view(['POST'])
+def ValidateNumber(request):
+
+    # get number from user
+    # check against saved number in models
+    # activate user and authenticate
+    # generate new JWT token and return it
+    return Response('token:123')
+
+
+def GetToken(user):
+    token, created = Token.objects.get_or_create(user=user)
+    return token
 
