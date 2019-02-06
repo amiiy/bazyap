@@ -1,18 +1,19 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_jwt.settings import api_settings
 
-from .serializers import UserSerializer, GroupSerializer
+from .serializers import UserSerializer, GroupSerializer, ClientSerializer
+from .models import Client
 
 
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = User.objects.all().order_by('-date_joined')
+    queryset = Client.objects.all()
     serializer_class = UserSerializer
 
 
@@ -30,7 +31,13 @@ def RegisterNumber(request):
     # generate a new number and send to user sms service
     # save number in user table in (pre-active phase)
     # return successfull status
-    return Response('ok')
+
+    serializer = ClientSerializer(data=request.data)
+    print(request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -41,9 +48,3 @@ def ValidateNumber(request):
     # generate new JWT token and return it
 
     return Response('token:123')
-
-
-def GetToken(user):
-    token = '123'
-    return token
-
