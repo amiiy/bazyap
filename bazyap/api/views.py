@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User, Group
+
 from rest_framework import viewsets
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework_jwt.settings import api_settings
+
 from .serializers import UserSerializer, GroupSerializer
 
 
@@ -22,7 +24,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
 
 
-
 @api_view(['POST'])
 def RegisterNumber(request):
     # get user phone number
@@ -34,15 +35,15 @@ def RegisterNumber(request):
 
 @api_view(['POST'])
 def ValidateNumber(request):
-
     # get number from user
     # check against saved number in models
     # activate user and authenticate
     # generate new JWT token and return it
+
     return Response('token:123')
 
 
 def GetToken(user):
-    token, created = Token.objects.get_or_create(user=user)
+    token = '123'
     return token
 
