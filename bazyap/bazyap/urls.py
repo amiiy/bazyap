@@ -9,6 +9,6 @@ from rest_framework_jwt.views import obtain_jwt_token
 urlpatterns = [
     path('login', obtain_jwt_token),
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
+    #path('api/', include('api.urls')),
 
 ]
