@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'api',
 
 ]
 
@@ -130,4 +131,4 @@ REST_FRAMEWORK = {
     ),
 }
 
-#AUTH_USER_MODEL = "api.Client"
+AUTH_USER_MODEL = "api.Client"
