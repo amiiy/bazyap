@@ -8,5 +8,5 @@ from . import views
 urlpatterns = [
     path('register', views.RegisterNumber),
     path('login', views.ValidateNumber),
-
+    path('profile', views.Profile)
 ]

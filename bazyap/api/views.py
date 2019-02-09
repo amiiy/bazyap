@@ -1,22 +1,17 @@
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_jwt.settings import api_settings
 
-from .serializers import GroupSerializer, ClientSerializer
+from .models import Client
+from .serializers import ClientSerializer
 from .utils import get_code
 
 
 @api_view(['POST'])
 @permission_classes([AllowAny, ])
 def RegisterNumber(request):
-    # get user phone number
-    # generate a new number and send to user sms service
-    # save number in user table in (pre-active phase)
-    # return successfull status
-    ser = ClientSerializer()
-    print(repr(ser))
     request.data['otp_code'] = get_code()
     serializer = ClientSerializer(
         data={'username': request.data['phone_number'], 'first_name': request.data['first_name'],
@@ -30,9 +25,13 @@ def RegisterNumber(request):
 @api_view(['POST'])
 @permission_classes([AllowAny, ])
 def ValidateNumber(request):
-    # get number from user
-    # check against saved number in models
-    # activate user and authenticate
-    # generate new JWT token and return it
-
     return Response('token:123')
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny, ])
+def Profile(request):
+    print(request.data)
+    querystring = get_object_or_404(Client, username=request.data['username'])
+    data = ClientSerializer(querystring)
+    return Response(data.data, status=status.HTTP_200_OK)
