@@ -6,5 +6,7 @@ from . import views
 # router.register(r'users', views.UserSerializer)
 
 urlpatterns = [
-    path('', views.RegisterNumber),
+    path('register', views.RegisterNumber),
+    path('login', views.ValidateNumber),
+
 ]

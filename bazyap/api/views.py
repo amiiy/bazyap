@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_jwt.settings import api_settings
 
 from .serializers import GroupSerializer, ClientSerializer
-from .models import Client
+from .utils import get_code
 
 
 @api_view(['POST'])
@@ -15,11 +15,15 @@ def RegisterNumber(request):
     # generate a new number and send to user sms service
     # save number in user table in (pre-active phase)
     # return successfull status
-    serializer = ClientSerializer(data=request.data)
-    print(request.data)
+    ser = ClientSerializer()
+    print(repr(ser))
+    request.data['otp_code'] = get_code()
+    serializer = ClientSerializer(
+        data={'username': request.data['phone_number'], 'first_name': request.data['first_name'],
+              'last_name': request.data['last_name'], 'otp_code': request.data['otp_code']})
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
