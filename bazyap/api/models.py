@@ -13,7 +13,7 @@ class Client(AbstractUser):
     last_name = models.CharField(max_length=64, null=False)
     birthday = models.DateField(null=False, auto_now_add=True)
     sex = models.IntegerField(choices=SEX_TYPE, default=1)
-    token = models.CharField(max_length=512, null=True)
+    token = models.CharField(max_length=2048, null=True)
 
     def save(self, *args, **kwargs):
         print('saved this data:', args)

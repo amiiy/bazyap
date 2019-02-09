@@ -2,12 +2,18 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_jwt.settings import api_settings
 
 from .models import Client
 from .serializers import ClientSerializer
 from .utils import get_code
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, ])
+def test(request):
+    return Response('ok')
 
 
 @api_view(['POST'])
@@ -28,11 +34,12 @@ def RegisterNumber(request):
 def ValidateNumber(request):
     # deleting otp code from model will handled by job workers
     queryset = get_object_or_404(Client, username=request.data['username'])
-    print(request.data)
     profile = ClientSerializer(queryset)
-    print(profile.data)
     if profile.data['otp_code'] == request.data['otp_code']:
         token = generate_token(user=profile.data)
+        queryset.token = token
+        queryset.save()
+        # FIXME: handle exceptions
         return Response(token, status=status.HTTP_200_OK)
     return Response('wrong password', status=status.HTTP_403_FORBIDDEN)
 
@@ -47,7 +54,6 @@ def Profile(request):
 
 def generate_token(user):
     jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-    print(user)
     payload = jwt_payload_handler(user)
     token = jwt_encode_handler(payload)
     return token
