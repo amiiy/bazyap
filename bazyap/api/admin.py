@@ -13,9 +13,7 @@ class MyUserChangeForm(UserChangeForm):
 class MyUserAdmin(UserAdmin):
     form = MyUserChangeForm
 
-    fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('phone_number',)}),
-    )
+    fieldsets = UserAdmin.fieldsets
 
 
 admin.site.register(Client, MyUserAdmin)
