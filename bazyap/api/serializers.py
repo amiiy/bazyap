@@ -13,7 +13,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ('first_name', 'last_name', 'username', 'token', 'otp_code', 'sex', 'birthday')
+        fields = ('last_name', 'username', 'token', 'otp_code', 'sex')
 
     def create(self, validated_data):
         return Client.objects.create(**validated_data)

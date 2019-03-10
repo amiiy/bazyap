@@ -22,7 +22,8 @@ def RegisterNumber(request):
     request.data['otp_code'] = get_code()
     serializer = ClientSerializer(
         data={'username': request.data['phone_number'], 'first_name': request.data['first_name'],
-              'last_name': request.data['last_name'], 'otp_code': request.data['otp_code']})
+              'last_name': request.data['last_name'], 'otp_code': request.data['otp_code'], 'sex': request.data['sex'],
+              'birthday': request.data['birthday']})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.validated_data, status=status.HTTP_201_CREATED)

@@ -9,9 +9,7 @@ SEX_TYPE = (
 
 class Client(AbstractUser):
     otp_code = models.IntegerField(null=True)
-    first_name = models.CharField(max_length=64, null=False)
     last_name = models.CharField(max_length=64, null=False)
-    birthday = models.DateField(null=False, auto_now_add=True)
     sex = models.IntegerField(choices=SEX_TYPE, default=1)
     token = models.CharField(max_length=2048, null=True)
 

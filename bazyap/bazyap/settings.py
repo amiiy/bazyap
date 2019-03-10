@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'bazyap.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bazyap',
+        'NAME': 'bazyap2',
         'USER': 'code',
         'PASSWORD': 'code1234',
         'HOST': '0.0.0.0',
